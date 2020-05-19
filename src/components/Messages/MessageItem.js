@@ -13,12 +13,10 @@ import {
   personCircleOutline,
   timeOutline,
   chatbubbleEllipsesOutline,
-  heartOutline,
 } from "ionicons/icons";
-
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
-const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
+const MessageItem = ({ message, index, url, browser, subject }) => {
   return (
     <IonCard routerLink={url} onClick={browser} button>
       <IonCardContent class="ion-no-padding">
@@ -29,14 +27,12 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                 verticalAlign: "middle",
               }}
               slot="start"
-            >
-              {showCount && index}
-            </IonBadge>
+            ></IonBadge>
             <IonLabel>
               <p
                 style={{
                   alignItems: "center",
-                  fontSize: "1rem",
+                  fontSize: "1.3rem",
                   fontWeight: "normal",
                 }}
               >
@@ -45,47 +41,44 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                     verticalAlign: "middle",
                   }}
                 >
-                  {link.subject} {}
+                  {message.subject} {}
                 </IonText>
               </p>
-
-              <div className="ion-padding-vertical ion-text-wrap">
-                <strong style={{ fontSize: "1rem" }}>{link.description}</strong>
-              </div>
-
+              {message.sender.profilePic ? (
+                <>
+                  <img
+                    src={message.sender.profilePic}
+                    style={{
+                      width: "30px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      height: "30px",
+                      position: "relative",
+                      overflow: "hidden",
+                      display: "inline",
+                      margin: "auto",
+                      paddingTop: "10px",
+                      paddingRight: "5px",
+                    }}
+                  />
+                </>
+              ) : (
+                <IonIcon icon={personCircleOutline} slot="start"></IonIcon>
+              )}
               <p
                 style={{
                   alignItems: "center",
-                  fontSize: "0.8 rem",
+                  fontSize: ".8rem",
                   fontWeight: "normal",
+                  display: "inline",
                 }}
               >
-                <IonIcon
-                  icon={heartOutline}
-                  style={{
-                    verticalAlign: "middle",
-                  }}
-                />{" "}
                 <IonText
                   style={{
                     verticalAlign: "middle",
                   }}
                 >
-                  {link.voteCount} Like(s)
-                </IonText>
-                {" | "}
-                <IonIcon
-                  icon={personCircleOutline}
-                  style={{
-                    verticalAlign: "middle",
-                  }}
-                />{" "}
-                <IonText
-                  style={{
-                    verticalAlign: "middle",
-                  }}
-                >
-                  {link.postedBy.name}
+                  {message.sender.name}
                 </IonText>
                 {" | "}
                 <IonIcon
@@ -99,9 +92,9 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                     verticalAlign: "middle",
                   }}
                 >
-                  {formatDistanceToNow(link.created)}
+                  {formatDistanceToNow(message.created)}
                 </IonText>
-                {link.comments.length > 0 && (
+                {message.replies.length > 0 && (
                   <>
                     {" | "}
                     <IonIcon
@@ -115,7 +108,7 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                         verticalAlign: "middle",
                       }}
                     >
-                      {link.comments.length} comments
+                      {message.replies.length} Replies
                     </IonText>
                   </>
                 )}{" "}
@@ -128,4 +121,4 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
   );
 };
 
-export default LinkItem;
+export default MessageItem;

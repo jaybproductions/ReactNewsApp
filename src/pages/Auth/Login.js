@@ -38,7 +38,7 @@ const Login = (props) => {
     try {
       await firebase.login(email, password);
       toast("You are now logged in!");
-      props.history.push("/");
+      props.history.push("/profile");
     } catch (err) {
       console.error("authentication error", err);
       toast(err.message);
@@ -78,7 +78,7 @@ const Login = (props) => {
               color="primary"
               expand="block"
               onClick={handleSubmit}
-              disabled={busy}
+              disabled={isSubmitting}
             >
               Log In
             </IonButton>

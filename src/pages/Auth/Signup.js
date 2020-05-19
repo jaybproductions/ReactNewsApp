@@ -15,14 +15,19 @@ import { toast } from "../../helpers/toast";
 import useForm from "../../hooks/useForm";
 import firebase from "../../firebase";
 import validateSignup from "../../validators/validateSignup";
+import UserContext from "../../contexts/UserContext";
 
 const INITIAL_STATE = {
   name: "",
+  url: "",
+  image: null,
   email: "",
   password: "",
+  photoURL: "",
 };
 
 const Signup = (props) => {
+  const { user } = React.useContext(UserContext);
   const { handleSubmit, handleChange, values, isSubmitting } = useForm(
     INITIAL_STATE,
     validateSignup,
@@ -33,12 +38,12 @@ const Signup = (props) => {
 
   async function authenticateUser() {
     setBusy(true);
-    const { name, email, password } = values;
+    const { name, email, password, photoURL } = values;
 
     try {
-      await firebase.register(name, email, password);
+      await firebase.register(name, email, password, photoURL);
       toast("You have signed up succsessfully!");
-      props.history.push("/");
+      props.history.push("/profile");
     } catch (err) {
       toast(err.message);
     }
@@ -80,6 +85,7 @@ const Signup = (props) => {
             onIonChange={handleChange}
           ></IonInput>
         </IonItem>
+
         <IonRow>
           <IonCol>
             <IonButton

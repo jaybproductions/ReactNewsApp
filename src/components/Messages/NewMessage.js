@@ -9,68 +9,83 @@ import {
   IonCol,
   IonButton,
 } from "@ionic/react";
-import SmallHeader from "../../components/Header/SmallHeader";
-import LargeHeader from "../../components/Header/LargeHeader";
+import SmallHeader from "../Header/SmallHeader";
+import LargeHeader from "../Header/LargeHeader";
 import UserContext from "../../contexts/UserContext";
 import useForm from "../../hooks/useForm";
 import firebase from "../../firebase";
-import validateCreateLink from "../../validators/validateCreateLink";
+import validateSendMessage from "../../validators/validateSendMessage";
 
 const INITIAL_STATE = {
-  description: "",
-  url: "",
+  messagebody: "",
+  subject: "",
 };
 
-const Submit = (props) => {
+const NewMessage = (props) => {
   const { user } = React.useContext(UserContext);
   const { handleSubmit, handleChange, values } = useForm(
     INITIAL_STATE,
-    validateCreateLink,
-    handleCreateLink
+    validateSendMessage,
+    handleCreateMessage
   );
 
-  function handleCreateLink() {
+  function handleCreateMessage() {
     if (!user) {
       props.history.push("/login");
     } else {
-      const { url, description, subject } = values;
-      const newLink = {
-        url,
+      const { messagebody, subject, recipient } = values;
+      const newMessage = {
         subject,
-        description,
-        postedBy: {
+        messagebody,
+        sender: {
           id: user.uid,
           name: user.displayName,
+          profilePic: user.photoURL,
         },
-        voteCount: 1,
-        votes: [],
-        comments: [],
+        recipient: {
+          id: "test",
+          name: values.recipient,
+        },
+        replies: [],
         created: Date.now(),
       };
-      firebase.db.collection("links").add(newLink);
-      props.history.push("/");
+      firebase.db.collection("messages").add(newMessage);
+      props.history.push("/messages");
     }
   }
   return (
     <IonPage>
-      <SmallHeader title="Add a New Post" />
+      <SmallHeader title="Send a new message" />
       <IonContent fullscreen>
-        <LargeHeader title="Add a New Post" />
+        <LargeHeader title="Send a new message" />
         <IonItem lines="full">
-          <IonLabel position="floating">Subject</IonLabel>
+          <IonLabel position="floating">
+            Who are you sending this message to?
+          </IonLabel>
           <IonInput
-            name="subject"
-            value={values.subject}
-            type="subject"
+            name="recipient"
+            value={values.recipient}
+            type="text"
             onIonChange={handleChange}
             required
           ></IonInput>
         </IonItem>
         <IonItem lines="full">
-          <IonLabel position="floating">Description</IonLabel>
+          <IonLabel position="floating">Subject</IonLabel>
           <IonInput
-            name="description"
-            value={values.description}
+            name="subject"
+            value={values.subject}
+            type="text"
+            onIonChange={handleChange}
+            required
+          ></IonInput>
+        </IonItem>
+
+        <IonItem lines="full">
+          <IonLabel position="floating">Message</IonLabel>
+          <IonInput
+            name="messagebody"
+            value={values.messagebody}
             type="text"
             onIonChange={handleChange}
             required
@@ -94,4 +109,4 @@ const Submit = (props) => {
   );
 };
 
-export default Submit;
+export default NewMessage;

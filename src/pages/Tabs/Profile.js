@@ -12,8 +12,9 @@ import {
   IonCol,
   IonButton,
   IonGrid,
+  IonImg,
 } from "@ionic/react";
-import { personCircleOutline, mailOutline } from "ionicons/icons";
+import { personCircleOutline, mailOutline, lockClosed } from "ionicons/icons";
 import SmallHeader from "../../components/Header/SmallHeader";
 import LargeHeader from "../../components/Header/LargeHeader";
 import { toast } from "../../helpers/toast";
@@ -26,13 +27,14 @@ const Profile = (props) => {
   async function LogoutUser() {
     try {
       await firebase.logout();
-      props.history.push("/");
+      props.history.push("/profile");
       toast("You are now logged out.");
     } catch (err) {
       console.error("Unable to log out", err);
       toast(err.message);
     }
   }
+
   return (
     <IonPage>
       <SmallHeader title="Profile" />
@@ -44,15 +46,41 @@ const Profile = (props) => {
               <IonCardContent>
                 <IonList lines="none">
                   <IonItem>
-                    <IonIcon icon={personCircleOutline} slot="start"></IonIcon>
-                    <IonLabel>
+                    {user.photoURL ? (
+                      <>
+                        <IonImg
+                          src={user.photoURL}
+                          style={{
+                            width: "60px",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                            height: "60px",
+                            position: "relative",
+                            overflow: "hidden",
+                            display: "inline",
+                            margin: "auto",
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <IonIcon
+                        icon={personCircleOutline}
+                        slot="start"
+                      ></IonIcon>
+                    )}
+
+                    <IonLabel style={{ paddingLeft: "15px" }}>
                       <strong>{user.displayName}</strong>
                       <p>Username</p>
                     </IonLabel>
                   </IonItem>
 
                   <IonItem>
-                    <IonIcon icon={mailOutline} slot="start"></IonIcon>
+                    <IonIcon
+                      icon={mailOutline}
+                      slot="start"
+                      style={{ paddingTop: "10px", paddingLeft: "15px" }}
+                    ></IonIcon>
                     <IonLabel>
                       <strong>{user.email}</strong>
                       <p>Email Address</p>
@@ -61,8 +89,33 @@ const Profile = (props) => {
                 </IonList>
               </IonCardContent>
             </IonCard>
+
             <IonRow>
               <IonCol>
+                <IonCard>
+                  <IonCardContent>
+                    <IonList lines="none">
+                      <IonItem>
+                        <IonIcon
+                          icon={lockClosed}
+                          slot="start"
+                          style={{ marginRight: "10px", paddingLeft: "15px" }}
+                        ></IonIcon>
+                        <IonLabel>
+                          <strong>Admin Area</strong>
+                        </IonLabel>
+                        <IonButton
+                          expand="block"
+                          routerLink={"/admin"}
+                          color="primary"
+                          fill="outline"
+                        >
+                          <strong>View</strong>
+                        </IonButton>
+                      </IonItem>
+                    </IonList>
+                  </IonCardContent>
+                </IonCard>
                 <IonButton
                   expand="block"
                   routerLink={"/edit-profile"}
@@ -99,7 +152,7 @@ const Profile = (props) => {
               <IonCol>
                 <IonButton
                   expand="block"
-                  routerLink={"/register"}
+                  routerLink={"/login"}
                   color="primary"
                   fill="outline"
                 >

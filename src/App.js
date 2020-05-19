@@ -15,10 +15,11 @@ import {
   searchOutline,
   personCircleOutline,
   createOutline,
-  trendingUpOutline,
+  lockClosed,
+  chatbubbleEllipsesOutline,
 } from "ionicons/icons";
 import News from "./pages/Tabs/News";
-import Trending from "./pages/Tabs/Trending";
+import Messages from "./pages/Tabs/Messages";
 import Submit from "./pages/Tabs/Submit";
 import Search from "./pages/Tabs/Search";
 import Profile from "./pages/Tabs/Profile";
@@ -29,6 +30,11 @@ import Forgot from "./pages/Auth/Forgot";
 import useAuth from "./hooks/useAuth";
 import UserContext from "./contexts/UserContext";
 import Link from "./pages/Link";
+import Admin from "./pages/Tabs/admin";
+import NewMessage from "./components/Messages/NewMessage";
+import AddEvent from "./pages/AddEvent";
+import Events from "./pages/Events";
+import Event from "./pages/Event";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -48,6 +54,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import Message from "./components/Messages/Message";
 
 const App = () => {
   const [user, setUser] = useAuth();
@@ -64,7 +71,7 @@ const App = () => {
                 exact={true}
               />
               <Route path="/news" component={News} />
-              <Route path="/trending" component={Trending} />
+              <Route path="/messages" component={Messages} />
               <Route path="/submit" component={Submit} />
               <Route path="/search" component={Search} />
               <Route path="/profile" component={Profile} />
@@ -72,21 +79,28 @@ const App = () => {
               <Route path="/register" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgot" component={Forgot} />
+              <Route path="/admin" component={Admin} />
+              <Route path="/new-message" component={NewMessage} />
               <Route path="/link/:linkId" component={Link} />
+              <Route path="/message/:messageId" component={Message} />
+              <Route path="/add-event" component={AddEvent} />
+              <Route path="/events" component={Events} />
+              <Route path="/event/:eventId" component={Event} />
+
               <Route component={() => <Redirect to="/news" />} />
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="news" href="/news">
                 <IonIcon icon={newspaperOutline} />
-                <IonLabel>Newsy</IonLabel>
+                <IonLabel>News Feed</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="trending" href="/trending">
-                <IonIcon icon={trendingUpOutline} />
-                <IonLabel>Trending</IonLabel>
+              <IonTabButton tab="messages" href="/messages">
+                <IonIcon icon={chatbubbleEllipsesOutline} />
+                <IonLabel>Messages</IonLabel>
               </IonTabButton>
               <IonTabButton tab="submit" href="/submit">
                 <IonIcon icon={createOutline} />
-                <IonLabel>Submit</IonLabel>
+                <IonLabel>Add a New Post</IonLabel>
               </IonTabButton>
               <IonTabButton tab="search" href="/search">
                 <IonIcon icon={searchOutline} />

@@ -8,7 +8,6 @@ import {
   IonCol,
   IonButton,
   IonItem,
-  IonRouterLink,
   IonLoading,
 } from "@ionic/react";
 import NavHeader from "../../components/Header/NavHeader";

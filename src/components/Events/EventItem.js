@@ -9,16 +9,11 @@ import {
   IonText,
   IonItem,
 } from "@ionic/react";
-import {
-  personCircleOutline,
-  timeOutline,
-  chatbubbleEllipsesOutline,
-  heartOutline,
-} from "ionicons/icons";
+import { personCircleOutline, timeOutline } from "ionicons/icons";
 
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
-const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
+const EventItem = ({ event, index, url, browser }) => {
   return (
     <IonCard routerLink={url} onClick={browser} button>
       <IonCardContent class="ion-no-padding">
@@ -30,7 +25,7 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
               }}
               slot="start"
             >
-              {showCount && index}
+              {index}
             </IonBadge>
             <IonLabel>
               <p
@@ -45,12 +40,14 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                     verticalAlign: "middle",
                   }}
                 >
-                  {link.subject} {}
+                  {event.dateofevent} {}
                 </IonText>
               </p>
 
               <div className="ion-padding-vertical ion-text-wrap">
-                <strong style={{ fontSize: "1rem" }}>{link.description}</strong>
+                <strong style={{ fontSize: "1rem" }}>
+                  {event.description}
+                </strong>
               </div>
 
               <p
@@ -60,20 +57,6 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                   fontWeight: "normal",
                 }}
               >
-                <IonIcon
-                  icon={heartOutline}
-                  style={{
-                    verticalAlign: "middle",
-                  }}
-                />{" "}
-                <IonText
-                  style={{
-                    verticalAlign: "middle",
-                  }}
-                >
-                  {link.voteCount} Like(s)
-                </IonText>
-                {" | "}
                 <IonIcon
                   icon={personCircleOutline}
                   style={{
@@ -85,7 +68,7 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                     verticalAlign: "middle",
                   }}
                 >
-                  {link.postedBy.name}
+                  {event.createdBy.name}
                 </IonText>
                 {" | "}
                 <IonIcon
@@ -99,26 +82,8 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                     verticalAlign: "middle",
                   }}
                 >
-                  {formatDistanceToNow(link.created)}
+                  {formatDistanceToNow(event.created)}
                 </IonText>
-                {link.comments.length > 0 && (
-                  <>
-                    {" | "}
-                    <IonIcon
-                      icon={chatbubbleEllipsesOutline}
-                      style={{
-                        verticalAlign: "middle",
-                      }}
-                    />{" "}
-                    <IonText
-                      style={{
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      {link.comments.length} comments
-                    </IonText>
-                  </>
-                )}{" "}
               </p>
             </IonLabel>
           </IonItem>
@@ -128,4 +93,4 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
   );
 };
 
-export default LinkItem;
+export default EventItem;

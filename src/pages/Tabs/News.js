@@ -7,9 +7,9 @@ import LinkList from "../../components/Link/LinkList";
 const News = (props) => {
   return (
     <IonPage>
-      <SmallHeader title="CSNews" />
+      <SmallHeader title="BTWG Social App" />
       <IonContent fullscreen>
-        <LargeHeader title="CSNews" />
+        <LargeHeader title="BTWG Social App" />
         <LinkList location={props.location} />
       </IonContent>
     </IonPage>
