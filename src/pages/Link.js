@@ -78,7 +78,11 @@ const Link = (props) => {
         if (doc.exists) {
           const previousComments = doc.data().comments;
           const newComment = {
-            postedBy: { id: user.uid, name: user.displayName },
+            postedBy: {
+              id: user.uid,
+              name: user.displayName,
+              profilePic: user.photoURL,
+            },
             created: Date.now(),
             text: commentText,
           };

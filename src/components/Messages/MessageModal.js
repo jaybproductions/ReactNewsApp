@@ -39,7 +39,7 @@ const MessageModal = ({ isOpen, title, sendAction, closeAction, replies }) => {
         <IonTextarea
           row={25}
           cols={25}
-          placeholder="Your comment"
+          placeholder="Your Reply"
           value={messageText}
           onIonChange={(e) => setMessageText(e.target.value)}
         />

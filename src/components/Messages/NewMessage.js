@@ -15,6 +15,7 @@ import UserContext from "../../contexts/UserContext";
 import useForm from "../../hooks/useForm";
 import firebase from "../../firebase";
 import validateSendMessage from "../../validators/validateSendMessage";
+import uuidv4 from "uuid/v4";
 
 const INITIAL_STATE = {
   messagebody: "",
@@ -43,7 +44,7 @@ const NewMessage = (props) => {
           profilePic: user.photoURL,
         },
         recipient: {
-          id: "test",
+          id: uuidv4(),
           name: values.recipient,
         },
         replies: [],

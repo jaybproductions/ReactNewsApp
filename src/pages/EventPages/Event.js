@@ -1,7 +1,7 @@
 import React from "react";
-import firebase from "../firebase";
+import firebase from "../../firebase";
 import { Plugins } from "@capacitor/core";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 import {
   IonPage,
   IonContent,
@@ -14,10 +14,10 @@ import {
   IonCardContent,
   IonText,
 } from "@ionic/react";
-import NavHeader from "../components/Header/NavHeader";
+import NavHeader from "../../components/Header/NavHeader";
 import { timeOutline } from "ionicons/icons";
 
-import EventItem from "../components/Events/EventItem";
+import EventItem from "../../components/Events/EventItem";
 
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 

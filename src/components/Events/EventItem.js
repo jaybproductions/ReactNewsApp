@@ -9,7 +9,11 @@ import {
   IonText,
   IonItem,
 } from "@ionic/react";
-import { personCircleOutline, timeOutline } from "ionicons/icons";
+import {
+  personCircleOutline,
+  timeOutline,
+  calendarOutline,
+} from "ionicons/icons";
 
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
@@ -25,7 +29,12 @@ const EventItem = ({ event, index, url, browser }) => {
               }}
               slot="start"
             >
-              {index}
+              <IonIcon
+                icon={calendarOutline}
+                style={{
+                  verticalAlign: "middle",
+                }}
+              />
             </IonBadge>
             <IonLabel>
               <p

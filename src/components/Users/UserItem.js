@@ -9,25 +9,20 @@ import {
   IonText,
   IonItem,
 } from "@ionic/react";
-import {
-  personCircleOutline,
-  timeOutline,
-  chatbubbleEllipsesOutline,
-  heartOutline,
-} from "ionicons/icons";
+import { personCircleOutline, timeOutline } from "ionicons/icons";
 
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
-const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
+const UserItem = ({ user, index, url, browser }) => {
   return (
     <IonCard routerLink={url} onClick={browser} button>
       <IonCardContent class="ion-no-padding">
         <IonList lines="none">
           <IonItem>
-            {link.postedBy.profilePic ? (
+            {user.profilePic ? (
               <>
                 <img
-                  src={link.postedBy.profilePic}
+                  src={user.profilePic}
                   style={{
                     width: "60px",
                     borderRadius: "50%",
@@ -38,7 +33,7 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                     display: "inline",
                     margin: "auto",
                     paddingTop: "10px",
-                    paddingRight: "5px",
+                    paddingRight: "10px",
                   }}
                 />
               </>
@@ -57,18 +52,14 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                 <IonText
                   style={{
                     verticalAlign: "middle",
-                    paddingLeft: "10px",
                   }}
                 >
-                  <strong>{link.postedBy.name}</strong> {}
+                  {user.name} {}
                 </IonText>
-                <br></br>
               </p>
 
               <div className="ion-padding-vertical ion-text-wrap">
-                <strong style={{ fontSize: "1rem", paddingLeft: "10px" }}>
-                  {link.description}
-                </strong>
+                <strong style={{ fontSize: "1rem" }}>{user.email}</strong>
               </div>
 
               <p
@@ -79,7 +70,7 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                 }}
               >
                 <IonIcon
-                  icon={heartOutline}
+                  icon={personCircleOutline}
                   style={{
                     verticalAlign: "middle",
                   }}
@@ -88,9 +79,7 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                   style={{
                     verticalAlign: "middle",
                   }}
-                >
-                  {link.voteCount} Like(s)
-                </IonText>
+                ></IonText>
                 {" | "}
                 <IonIcon
                   icon={timeOutline}
@@ -103,26 +92,8 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
                     verticalAlign: "middle",
                   }}
                 >
-                  {formatDistanceToNow(link.created)}
+                  {formatDistanceToNow(user.created)}
                 </IonText>
-                {link.comments.length > 0 && (
-                  <>
-                    {" | "}
-                    <IonIcon
-                      icon={chatbubbleEllipsesOutline}
-                      style={{
-                        verticalAlign: "middle",
-                      }}
-                    />{" "}
-                    <IonText
-                      style={{
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      {link.comments.length} comments
-                    </IonText>
-                  </>
-                )}{" "}
               </p>
             </IonLabel>
           </IonItem>
@@ -132,4 +103,4 @@ const LinkItem = ({ link, index, showCount, url, browser, subject }) => {
   );
 };
 
-export default LinkItem;
+export default UserItem;

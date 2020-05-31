@@ -17,6 +17,10 @@ import {
   createOutline,
   lockClosed,
   chatbubbleEllipsesOutline,
+  personOutline,
+  calendarOutline,
+  ellipsisHorizontalOutline,
+  homeOutline,
 } from "ionicons/icons";
 import News from "./pages/Tabs/News";
 import Messages from "./pages/Tabs/Messages";
@@ -30,11 +34,12 @@ import Forgot from "./pages/Auth/Forgot";
 import useAuth from "./hooks/useAuth";
 import UserContext from "./contexts/UserContext";
 import Link from "./pages/Link";
-import Admin from "./pages/Tabs/admin";
+import Admin from "./pages/Tabs/AdminPage";
 import NewMessage from "./components/Messages/NewMessage";
-import AddEvent from "./pages/AddEvent";
-import Events from "./pages/Events";
-import Event from "./pages/Event";
+import AddEvent from "./pages/EventPages/AddEvent";
+import Events from "./pages/EventPages/EventsPage";
+import Event from "./pages/EventPages/Event";
+import Users from "./pages/Tabs/Users";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -86,29 +91,32 @@ const App = () => {
               <Route path="/add-event" component={AddEvent} />
               <Route path="/events" component={Events} />
               <Route path="/event/:eventId" component={Event} />
+              <Route path="/users" component={Users} />
 
               <Route component={() => <Redirect to="/news" />} />
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="news" href="/news">
-                <IonIcon icon={newspaperOutline} />
-                <IonLabel>News Feed</IonLabel>
+                <IonIcon icon={homeOutline} />
+                <IonLabel>Posts</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="events" href="/events">
+                <IonIcon icon={calendarOutline} />
+                <IonLabel>Calendar</IonLabel>
+              </IonTabButton>
+
+              <IonTabButton tab="users" href="/users">
+                <IonIcon icon={personOutline} />
+                <IonLabel>Brothers</IonLabel>
               </IonTabButton>
               <IonTabButton tab="messages" href="/messages">
                 <IonIcon icon={chatbubbleEllipsesOutline} />
                 <IonLabel>Messages</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="submit" href="/submit">
-                <IonIcon icon={createOutline} />
-                <IonLabel>Add a New Post</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="search" href="/search">
-                <IonIcon icon={searchOutline} />
-                <IonLabel>Search</IonLabel>
-              </IonTabButton>
+
               <IonTabButton tab="profile" href="/profile">
-                <IonIcon icon={personCircleOutline} />
-                <IonLabel>Profile</IonLabel>
+                <IonIcon icon={ellipsisHorizontalOutline} />
+                <IonLabel>More</IonLabel>
               </IonTabButton>
             </IonTabBar>
           </IonTabs>

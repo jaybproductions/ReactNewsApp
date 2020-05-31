@@ -41,6 +41,7 @@ const Submit = (props) => {
         postedBy: {
           id: user.uid,
           name: user.displayName,
+          profilePic: user.photoURL,
         },
         voteCount: 1,
         votes: [],

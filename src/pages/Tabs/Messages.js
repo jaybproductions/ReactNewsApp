@@ -23,7 +23,7 @@ const Messages = (props) => {
           slot="fixed"
           style={{ paddingBottom: "10px" }}
         >
-          <IonFabButton color="success" href={"/new-message"}>
+          <IonFabButton color="success" routerLink={"/new-message"}>
             <IonIcon icon={add} />
           </IonFabButton>
         </IonFab>

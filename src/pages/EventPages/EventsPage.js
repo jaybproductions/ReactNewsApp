@@ -6,9 +6,9 @@ import {
   IonFabButton,
   IonIcon,
 } from "@ionic/react";
-import NavHeader from "../components/Header/NavHeader";
+import NavHeader from "../../components/Header/NavHeader";
 import { add } from "ionicons/icons";
-import EventsList from "../components/Events/EventsList";
+import EventsList from "../../components/Events/EventsList";
 
 const Events = (props) => {
   return (
@@ -16,7 +16,7 @@ const Events = (props) => {
       <NavHeader title="Events" />
       <IonContent fullscreen>
         <IonFab vertical="top" horizontal="end" slot="fixed">
-          <IonFabButton color="success" href={"/add-event"}>
+          <IonFabButton color="success" routerLink={"/add-event"}>
             <IonIcon icon={add} />
           </IonFabButton>
         </IonFab>

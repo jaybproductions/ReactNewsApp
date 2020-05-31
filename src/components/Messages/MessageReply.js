@@ -24,7 +24,8 @@ const MessageReply = ({ replies, message, setMessage }) => {
     setShowModal(false);
   }
 
-  function handleEditReply(messageText) {
+  //Waiting to fix reply first
+  /*function handleEditReply(messageText) {
     const messageRef = firebase.db.collection("messages").doc(message.id);
     messageRef.get().then((doc) => {
       if (doc.exists) {
@@ -50,13 +51,14 @@ const MessageReply = ({ replies, message, setMessage }) => {
     });
     setShowModal(false);
   }
+*/
 
   return (
     <>
       <MessageModal
         isOpen={showModal}
         title="Edit Comment"
-        sendAction={handleEditReply}
+        //sendAction={handleEditReply}
         closeAction={handleCloseModal}
         replies={replies}
       />
@@ -97,11 +99,6 @@ const MessageReply = ({ replies, message, setMessage }) => {
                   {formatDistanceToNow(replies.created)}
                 </p>
                 <div className="ion-padding-vertical">{replies.text}</div>
-                {postedByAuthUser && (
-                  <IonButton size="small" onClick={() => setShowModal(true)}>
-                    Edit
-                  </IonButton>
-                )}
               </IonLabel>
             </IonItem>
           </IonList>

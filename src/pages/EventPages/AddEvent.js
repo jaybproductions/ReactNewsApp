@@ -8,13 +8,13 @@ import {
   IonCard,
   IonButton,
 } from "@ionic/react";
-import NavHeader from "../components/Header/NavHeader";
+import NavHeader from "../../components/Header/NavHeader";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import firebase from "../firebase";
-import UserContext from "../contexts/UserContext";
-import validateEvent from "../validators/validateEvent";
-import useForm from "../hooks/useForm";
+import firebase from "../../firebase";
+import UserContext from "../../contexts/UserContext";
+import validateEvent from "../../validators/validateEvent";
+import useForm from "../../hooks/useForm";
 
 const AddEvent = (props) => {
   const [date, setDate] = React.useState("");
@@ -37,7 +37,7 @@ const AddEvent = (props) => {
     handleCreateEvent
   );
   function onChange(date) {
-    setDate(date);
+    setDate(date.toDateString());
     console.log(date);
   }
 
@@ -49,7 +49,7 @@ const AddEvent = (props) => {
       const newEvent = {
         title,
         description,
-        dateofevent: date.toString(),
+        dateofevent: date,
         createdBy: {
           id: user.uid,
           name: user.displayName,
@@ -91,7 +91,7 @@ const AddEvent = (props) => {
           </IonItem>
           <IonItem>
             <IonLabel position="floating">Date of Event</IonLabel>
-            <p style={{ paddingTop: "10px" }}>{date.toString()}</p>
+            <p style={{ paddingTop: "10px" }}>{date}</p>
           </IonItem>
           <IonItem lines="full">
             <IonLabel position="floating">Short Description of Event</IonLabel>

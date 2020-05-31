@@ -1,10 +1,10 @@
 import React from "react";
 import firebase from "../../firebase";
-import EventItem from "../Events/EventItem";
+import UserItem from "../Users/UserItem";
 import UserContext from "../../contexts/UserContext";
 
-const EventsList = (props) => {
-  const [events, setEvents] = React.useState([]);
+const UsersList = (props) => {
+  const [users, setUsers] = React.useState([]);
   const isTrending = props.location.pathname.includes("trending");
   const { user } = React.useContext(UserContext);
 
@@ -16,30 +16,30 @@ const EventsList = (props) => {
 
   function getEvents() {
     return firebase.db
-      .collection("events")
+      .collection("users")
 
-      .orderBy("created", "desc")
+      .orderBy("name", "desc")
       .onSnapshot(handleSnapshot);
   }
 
   function handleSnapshot(snapshot) {
-    const events = snapshot.docs.map((doc) => {
+    const users = snapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
     });
 
-    setEvents(events);
+    setUsers(users);
   }
 
   return (
     <>
-      {events.length > 0 && (
+      {users.length > 0 && (
         <>
-          {events.map((event, index) => (
+          {users.map((user, index) => (
             <>
-              <EventItem
-                key={event.id}
-                url={`/event/${event.id}`}
-                event={event}
+              <UserItem
+                key={user.id}
+                url={`/user/${user.id}`}
+                user={user}
                 index={index + 1}
               />
             </>
@@ -50,4 +50,4 @@ const EventsList = (props) => {
   );
 };
 
-export default EventsList;
+export default UsersList;

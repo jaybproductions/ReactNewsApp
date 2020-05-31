@@ -31,6 +31,7 @@ const EditProfile = (props) => {
   const linkId = user && user.uid;
 
   const [image, setImage] = React.useState("");
+
   const [busy, setBusy] = React.useState(false);
 
   const {
@@ -109,9 +110,12 @@ const EditProfile = (props) => {
         id: user.uid,
         name: user.displayName,
 
+        email: user.email,
+        emailVerified: user.emailVerified,
+
         created: Date.now(),
       };
-      firebase.db.collection("users").doc(user.uid).set({ newUser });
+      firebase.db.collection("users").doc(user.uid).set(newUser);
       console.log("User added to database");
     }
   }

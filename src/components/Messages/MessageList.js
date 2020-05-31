@@ -4,6 +4,7 @@ import MessageItem from "./MessageItem";
 import UserContext from "../../contexts/UserContext";
 import { IonIcon, IonText } from "@ionic/react";
 import { chatbubbleEllipsesOutline } from "ionicons/icons";
+import uuidv4 from "uuid/v4";
 
 const MessageList = (props) => {
   const [sentMessages, setSentMessages] = React.useState([]);
@@ -19,7 +20,7 @@ const MessageList = (props) => {
       unsubscribe2();
     };
     // eslint-disable-next-line
-  }, [isTrending]);
+  }, []);
 
   function getSentMessages() {
     if (!user) {
@@ -88,7 +89,7 @@ const MessageList = (props) => {
       {sentMessages.map((message, index) => (
         <>
           <MessageItem
-            key={message.id}
+            key={() => uuidv4}
             showCount={true}
             url={`/message/${message.id}`}
             message={message}
@@ -121,13 +122,13 @@ const MessageList = (props) => {
           </div>
         </>
       )}{" "}
-      {recievedMessages.map((message, index) => (
+      {recievedMessages.map((recieivedmessage, index) => (
         <>
           <MessageItem
-            key={message.id}
+            key={() => uuidv4}
             showCount={true}
-            url={`/message/${message.id}`}
-            message={message}
+            url={`/message/${recieivedmessage.id}`}
+            message={recieivedmessage}
             index={index + 1}
           />
         </>

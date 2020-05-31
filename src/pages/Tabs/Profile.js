@@ -20,6 +20,7 @@ import LargeHeader from "../../components/Header/LargeHeader";
 import { toast } from "../../helpers/toast";
 import firebase from "../../firebase";
 import UserContext from "../../contexts/UserContext";
+import ToggleDark from "../../components/ToggleDarkButton";
 
 const Profile = (props) => {
   const { user } = React.useContext(UserContext);
@@ -113,9 +114,13 @@ const Profile = (props) => {
                           <strong>View</strong>
                         </IonButton>
                       </IonItem>
+
+                      <ToggleDark />
                     </IonList>
                   </IonCardContent>
                 </IonCard>
+                <IonCard></IonCard>
+
                 <IonButton
                   expand="block"
                   routerLink={"/edit-profile"}
