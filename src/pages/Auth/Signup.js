@@ -15,7 +15,6 @@ import { toast } from "../../helpers/toast";
 import useForm from "../../hooks/useForm";
 import firebase from "../../firebase";
 import validateSignup from "../../validators/validateSignup";
-import UserContext from "../../contexts/UserContext";
 
 const INITIAL_STATE = {
   name: "",
@@ -27,7 +26,6 @@ const INITIAL_STATE = {
 };
 
 const Signup = (props) => {
-  const { user } = React.useContext(UserContext);
   const { handleSubmit, handleChange, values, isSubmitting } = useForm(
     INITIAL_STATE,
     validateSignup,
@@ -42,6 +40,7 @@ const Signup = (props) => {
 
     try {
       await firebase.register(name, email, password, photoURL);
+
       toast("You have signed up succsessfully!");
       props.history.push("/profile");
     } catch (err) {

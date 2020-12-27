@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 import { toast } from "../../helpers/toast";
 import firebase from "../../firebase";
@@ -19,20 +19,31 @@ import {
 import NavHeader from "../../components/Header/NavHeader";
 
 const EditProfile = (props) => {
-  const { user, setUser } = React.useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+
+  const [image, setImage] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
+  const [updatedImg, setUpdatedImg] = useState(false);
+
+  const [userData, setUserData] = useState([]);
+
   const INITIAL_STATE = {
     name: user && user.displayName,
     email: user && user.email,
     newPassword: "",
     currentPassword: "",
     url: user && user.photoURL,
+    phone: userData.phoneNumber || "",
   };
 
-  const linkId = user && user.uid;
+  const [busy, setBusy] = useState(false);
 
-  const [image, setImage] = React.useState("");
-
-  const [busy, setBusy] = React.useState(false);
+  useEffect(() => {
+    handleGetProfilePic();
+    if (updatedImg) {
+      setUpdatedImg(false);
+    }
+  }, [!user, updatedImg]);
 
   const {
     handleSubmit,
@@ -102,26 +113,20 @@ const EditProfile = (props) => {
     }
   }
 
-  function handleCreateUser() {
+  const handleGetProfilePic = async () => {
     if (!user) {
-      console.log("Waiting to Connect...");
+      return;
     } else {
-      const newUser = {
-        id: user.uid,
-        name: user.displayName,
-
-        email: user.email,
-        emailVerified: user.emailVerified,
-
-        created: Date.now(),
-      };
-      firebase.db.collection("users").doc(user.uid).set(newUser);
-      console.log("User added to database");
+      const userData = await firebase.db
+        .collection("users")
+        .doc(user.uid)
+        .get();
+      console.log(userData.data().profilePic);
+      setProfilePicture(userData.data().profilePic);
     }
-  }
+  };
 
   async function handleUpload() {
-    handleCreateUser();
     const uploadTask = firebase.storage
       .ref(`users/${user.uid}/images/${image.name}`)
       .put(image);
@@ -150,15 +155,33 @@ const EditProfile = (props) => {
               firebase.auth.currentUser.updateProfile({
                 photoURL: url,
               });
-              let userRef = firebase.db.collection("users").doc(user.uid);
-
+              const userRef = firebase.db.collection("users").doc(user.uid);
               userRef.update({ profilePic: url });
-              toast("Your Profile Picture has been upldated.");
+              toast("Your Profile Picture has been updated.");
+              setUpdatedImg(true);
             }
           });
       }
     );
   }
+
+  const getUserData = async () => {
+    const userRef = firebase.db.collection("users").doc(user.uid);
+    document = await userRef.get();
+
+    setUserData(document.data());
+  };
+
+  const updateUserData = async () => {
+    if (!user) {
+      console.log("waiting to connect");
+    } else {
+      const userRef = firebase.db.collection("users").doc(user.uid);
+      const document = await userRef.update({
+        phoneNumber: values.phoneNumber,
+      });
+    }
+  };
 
   return (
     <IonPage>
@@ -187,6 +210,18 @@ const EditProfile = (props) => {
                 onIonChange={handleChange}
                 required
               ></IonInput>
+            </IonItem>
+
+            <IonItem lines="full">
+              <IonLabel position="floating">Phone Number</IonLabel>
+              <IonInput
+                name="phoneNumber"
+                type="tel"
+                value={values.phoneNumber}
+                onIonChange={handleChange}
+                required
+              ></IonInput>
+              <IonButton onClick={updateUserData}>Save Phone Number</IonButton>
             </IonItem>
 
             <IonItem lines="full">
@@ -225,35 +260,20 @@ const EditProfile = (props) => {
                 <IonLabel position="floating">
                   Your Current Profile Picture
                 </IonLabel>
-                {user.photoURL ? (
-                  <img
-                    style={{
-                      width: "200px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      height: "200px",
-                      position: "relative",
-                      overflow: "hidden",
-                      display: "inline",
-                      margin: "auto",
-                    }}
-                    src={user.photoURL}
-                  />
-                ) : (
-                  <img
-                    style={{
-                      width: "200px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      height: "200px",
-                      position: "relative",
-                      overflow: "hidden",
-                      display: "inline",
-                      margin: "auto",
-                    }}
-                    src={"http://via.placeholder.com/400x300"}
-                  />
-                )}
+
+                <img
+                  style={{
+                    width: "200px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    height: "200px",
+                    position: "relative",
+                    overflow: "hidden",
+                    display: "inline",
+                    margin: "auto",
+                  }}
+                  src={profilePicture || "http://via.placeholder.com/400x300"}
+                />
               </IonItem>
             </div>
             <IonRow>

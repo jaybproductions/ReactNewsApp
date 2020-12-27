@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import firebase from "../../firebase";
 import MessageItem from "./MessageItem";
 import UserContext from "../../contexts/UserContext";
@@ -7,12 +7,11 @@ import { chatbubbleEllipsesOutline } from "ionicons/icons";
 import uuidv4 from "uuid/v4";
 
 const MessageList = (props) => {
-  const [sentMessages, setSentMessages] = React.useState([]);
-  const [recievedMessages, setRecievedMessages] = React.useState([]);
-  const isTrending = props.location.pathname.includes("trending");
-  const { user } = React.useContext(UserContext);
+  const [sentMessages, setSentMessages] = useState([]);
+  const [recievedMessages, setRecievedMessages] = useState([]);
+  const { user } = useContext(UserContext);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getSentMessages();
     getRecievedMessages();
 

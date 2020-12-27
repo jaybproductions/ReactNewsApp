@@ -1,5 +1,5 @@
 import React from "react";
-import { IonButton, IonItem, IonIcon, IonToggle, IonLabel } from "@ionic/react";
+import { IonItem, IonIcon, IonToggle, IonLabel } from "@ionic/react";
 import { moon } from "ionicons/icons";
 import "../theme/variables.css";
 

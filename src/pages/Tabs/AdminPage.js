@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   IonPage,
   IonContent,
@@ -20,17 +20,15 @@ import {
   personAddOutline,
   calendarOutline,
 } from "ionicons/icons";
-import SmallHeader from "../../components/Header/SmallHeader";
-import LargeHeader from "../../components/Header/LargeHeader";
 import { toast } from "../../helpers/toast";
 import firebase from "../../firebase";
 import UserContext from "../../contexts/UserContext";
 import NavHeader from "../../components/Header/NavHeader";
 
 const Admin = (props) => {
-  const { user } = React.useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  async function LogoutUser() {
+  const LogoutUser = async () => {
     try {
       await firebase.logout();
       props.history.push("/");
@@ -39,7 +37,7 @@ const Admin = (props) => {
       console.error("Unable to log out", err);
       toast(err.message);
     }
-  }
+  };
   return (
     <IonPage>
       <NavHeader title="Admin Area" />

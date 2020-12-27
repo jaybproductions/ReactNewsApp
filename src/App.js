@@ -11,11 +11,6 @@ import {
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import {
-  newspaperOutline,
-  searchOutline,
-  personCircleOutline,
-  createOutline,
-  lockClosed,
   chatbubbleEllipsesOutline,
   personOutline,
   calendarOutline,
@@ -40,6 +35,7 @@ import AddEvent from "./pages/EventPages/AddEvent";
 import Events from "./pages/EventPages/EventsPage";
 import Event from "./pages/EventPages/Event";
 import Users from "./pages/Tabs/Users";
+import User from "./components/Users/User";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -92,6 +88,7 @@ const App = () => {
               <Route path="/events" component={Events} />
               <Route path="/event/:eventId" component={Event} />
               <Route path="/users" component={Users} />
+              <Route path="/user/:userId" component={User} />
 
               <Route component={() => <Redirect to="/news" />} />
             </IonRouterOutlet>

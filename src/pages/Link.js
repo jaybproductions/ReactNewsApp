@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import firebase from "../firebase";
 import UserContext from "../contexts/UserContext";
 import {
@@ -16,24 +16,24 @@ import CommentModal from "../components/Link/CommentModal";
 import LinkComment from "../components/Link/LinkComment";
 
 const Link = (props) => {
-  const { user } = React.useContext(UserContext);
-  const [link, setLink] = React.useState(null);
+  const { user } = useContext(UserContext);
+  const [link, setLink] = useState(null);
   const linkId = props.match.params.linkId;
   const linkRef = firebase.db.collection("links").doc(linkId);
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getLink();
     // eslint-disable-next-line
   }, [linkId]);
 
-  function getLink() {
+  const getLink = () => {
     linkRef.get().then((doc) => {
       setLink({ ...doc.data(), id: doc.id });
     });
-  }
+  };
 
-  function handleAddVote() {
+  const handleAddVote = () => {
     if (!user) {
       props.history.push("/login");
     } else {
@@ -52,25 +52,25 @@ const Link = (props) => {
         }
       });
     }
-  }
+  };
 
-  function handleOpenModal() {
+  const handleOpenModal = () => {
     if (!user) {
       props.history.push("/login");
     } else {
       setShowModal(true);
     }
-  }
+  };
 
-  function handleCloseModal() {
+  const handleCloseModal = () => {
     if (!user) {
       props.history.push("/login");
     } else {
       setShowModal(false);
     }
-  }
+  };
 
-  function handleAddComment(commentText) {
+  const handleAddComment = (commentText) => {
     if (!user) {
       props.history.push("/login");
     } else {
@@ -96,9 +96,9 @@ const Link = (props) => {
       });
     }
     setShowModal(false);
-  }
+  };
 
-  function handleDeleteLink() {
+  const handleDeleteLink = () => {
     linkRef
       .delete()
       .then(() => {
@@ -108,11 +108,11 @@ const Link = (props) => {
         console.error("Error deleting document", err);
       });
     props.history.push("/");
-  }
+  };
 
-  function postedByAuthUser(link) {
+  const postedByAuthUser = (link) => {
     return user && user.uid === link.postedBy.id;
-  }
+  };
 
   return (
     <IonPage>

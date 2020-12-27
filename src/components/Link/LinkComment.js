@@ -11,12 +11,7 @@ import {
   IonButton,
   IonIcon,
 } from "@ionic/react";
-import {
-  personCircleOutline,
-  timeOutline,
-  chatbubbleEllipsesOutline,
-  heartOutline,
-} from "ionicons/icons";
+import { personCircleOutline } from "ionicons/icons";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const LinkComment = ({ comment, link, setLink }) => {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useContext } from "react";
 import {
   IonPage,
   IonContent,
@@ -17,8 +17,8 @@ import validateEvent from "../../validators/validateEvent";
 import useForm from "../../hooks/useForm";
 
 const AddEvent = (props) => {
-  const [date, setDate] = React.useState("");
-  const { user } = React.useContext(UserContext);
+  const [date, setDate] = useState("");
+  const { user } = useContext(UserContext);
   const INITIAL_STATE = {
     date: new Date(),
     title: "",
@@ -45,7 +45,7 @@ const AddEvent = (props) => {
     if (!user) {
       props.history.push("/login");
     } else {
-      const { title, createdBy, description, details } = values;
+      const { title, description } = values;
       const newEvent = {
         title,
         description,
@@ -108,7 +108,8 @@ const AddEvent = (props) => {
             type="submit"
             color="primary"
             expand="block"
-            onclick={handleCreateEvent}
+            onclick={handleSubmit}
+            disabled={isSubmitting}
           >
             Add Event
           </IonButton>

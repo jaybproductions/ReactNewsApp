@@ -1,35 +1,17 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import firebase from "../../firebase";
-import { Plugins } from "@capacitor/core";
 import UserContext from "../../contexts/UserContext";
-import {
-  IonPage,
-  IonContent,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonButton,
-  IonIcon,
-  IonCard,
-  IonCardContent,
-  IonText,
-} from "@ionic/react";
+import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import NavHeader from "../../components/Header/NavHeader";
-import { timeOutline } from "ionicons/icons";
-
 import EventItem from "../../components/Events/EventItem";
 
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
-
-const { Browser } = Plugins;
-
 const Event = (props) => {
-  const { user } = React.useContext(UserContext);
-  const [event, setEvent] = React.useState(null);
+  const { user } = useContext(UserContext);
+  const [event, setEvent] = useState(null);
   const eventId = props.match.params.eventId;
   const eventRef = firebase.db.collection("events").doc(eventId);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getEvent();
     // eslint-disable-next-line
   }, [eventId]);

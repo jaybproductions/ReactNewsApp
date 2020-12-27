@@ -19,10 +19,23 @@ class Firebase {
       email,
       password
     );
-    return newUser.user.updateProfile({
+
+    await newUser.user.updateProfile({
       displayName: name,
       photoURL: photoURL,
     });
+
+    const userData = {
+      id: newUser.user.uid,
+      name: newUser.user.displayName,
+      email: newUser.user.email,
+      emailVerified: newUser.user.emailVerified,
+
+      created: Date.now(),
+    };
+    this.db.collection("users").doc(newUser.user.uid).set(userData);
+    console.log("User added to database");
+    console.log(newUser.user.uid);
   }
 
   login(email, password) {

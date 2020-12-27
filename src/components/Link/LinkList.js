@@ -12,6 +12,12 @@ const LinkList = (props) => {
     // eslint-disable-next-line
   }, [isTrending]);
 
+  React.useEffect(() => {
+    const unsubscribe = getLinks();
+    return () => unsubscribe();
+    // eslint-disable-next-line
+  }, []);
+
   function getLinks() {
     if (isTrending) {
       return firebase.db

@@ -1,12 +1,10 @@
 import React from "react";
 import firebase from "../../firebase";
 import UserItem from "../Users/UserItem";
-import UserContext from "../../contexts/UserContext";
 
 const UsersList = (props) => {
   const [users, setUsers] = React.useState([]);
   const isTrending = props.location.pathname.includes("trending");
-  const { user } = React.useContext(UserContext);
 
   React.useEffect(() => {
     const unsubscribe = getEvents();
@@ -35,14 +33,14 @@ const UsersList = (props) => {
       {users.length > 0 && (
         <>
           {users.map((user, index) => (
-            <>
+            <div key={index}>
               <UserItem
                 key={user.id}
                 url={`/user/${user.id}`}
                 user={user}
                 index={index + 1}
               />
-            </>
+            </div>
           ))}
         </>
       )}

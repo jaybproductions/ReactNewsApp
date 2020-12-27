@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   IonPage,
   IonContent,
@@ -8,6 +8,8 @@ import {
   IonRow,
   IonCol,
   IonButton,
+  IonSearchbar,
+  IonList,
 } from "@ionic/react";
 import SmallHeader from "../Header/SmallHeader";
 import LargeHeader from "../Header/LargeHeader";
@@ -20,15 +22,18 @@ import uuidv4 from "uuid/v4";
 const INITIAL_STATE = {
   messagebody: "",
   subject: "",
+  recipient: "",
 };
 
 const NewMessage = (props) => {
-  const { user } = React.useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { handleSubmit, handleChange, values } = useForm(
     INITIAL_STATE,
     validateSendMessage,
     handleCreateMessage
   );
+  const userRef = firebase.db.collection("users");
+  const [usernameArr, setUsernameArr] = useState([]);
 
   function handleCreateMessage() {
     if (!user) {
@@ -45,7 +50,7 @@ const NewMessage = (props) => {
         },
         recipient: {
           id: uuidv4(),
-          name: values.recipient,
+          name: recipient,
         },
         replies: [],
         created: Date.now(),
@@ -54,6 +59,16 @@ const NewMessage = (props) => {
       props.history.push("/messages");
     }
   }
+
+  const handleGetUsers = async () => {
+    const snapshot = await userRef.get();
+    let userArr = [];
+    snapshot.docs.forEach((user, index) => {
+      userArr.push(user.data().name);
+    });
+    setUsernameArr(userArr);
+    console.log(userArr);
+  };
   return (
     <IonPage>
       <SmallHeader title="Send a new message" />
@@ -63,13 +78,15 @@ const NewMessage = (props) => {
           <IonLabel position="floating">
             Who are you sending this message to?
           </IonLabel>
-          <IonInput
+          <IonSearchbar
             name="recipient"
             value={values.recipient}
             type="text"
             onIonChange={handleChange}
             required
-          ></IonInput>
+            onClick={handleGetUsers}
+          ></IonSearchbar>
+          <IonList children={usernameArr}></IonList>
         </IonItem>
         <IonItem lines="full">
           <IonLabel position="floating">Subject</IonLabel>
